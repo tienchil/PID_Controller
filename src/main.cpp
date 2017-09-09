@@ -34,7 +34,7 @@ int main()
 
   PID pid;
   // TODO: Initialize the pid variable.
-  pid.Init(4.0, 0.0, 0.0);
+  pid.Init(0.1, 4.0, 0.01);
 
 
   h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
@@ -59,16 +59,9 @@ int main()
           * NOTE: Feel free to play around with the throttle and speed. Maybe use
           * another PID controller to control the speed!
           */
-          // double delta = 0.2;
-          // double p[3] = {0.0, 0.0, 0.0};
-          // double dp[3] = {1.0, 1.0, 1.0};
-          // double sum = dp[0] + dp[1] + dp[2];
 
           pid.UpdateError(cte);
-          steer_value = -pid.Kp * pid.p_error - pid.Kd * pid.d_error - pid.Ki * pid.i_error;
-
-
-
+          steer_value = -pid.Kp_ * pid.p_error - pid.Kd_ * pid.d_error - pid.Ki_ * pid.i_error;
           
           // DEBUG
           std::cout << "CTE: " << cte << " Steering Value: " << steer_value << std::endl;
